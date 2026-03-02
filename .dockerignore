@@ -1,0 +1,15 @@
+results/
+logs/
+.git/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.env
+.venv
+venv/
+*.log
+*.jsonl
+report.md
+*.md
+!config/*.yaml

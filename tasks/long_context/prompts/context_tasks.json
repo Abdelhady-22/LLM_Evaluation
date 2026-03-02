@@ -1,0 +1,36 @@
+{
+    "tasks": [
+        {
+            "id": "context_task_1",
+            "system_prompt": "You are a research analyst. Answer questions based ONLY on the provided document. Always cite the relevant section. Be concise and factual. Respond in bullet points only.",
+            "user_prompt": "Based on the document provided, summarize the three most important findings and their implications.",
+            "evaluation_criteria": [
+                "answer_relevance",
+                "faithfulness",
+                "instruction_following",
+                "coherence"
+            ]
+        },
+        {
+            "id": "context_task_2",
+            "system_prompt": "You are a legal assistant reviewing contracts. You must cite exact clause numbers. Never speculate beyond what is written. Respond formally.",
+            "user_prompt": "Identify all obligations, deadlines, and penalties mentioned in the document.",
+            "evaluation_criteria": [
+                "answer_relevance",
+                "faithfulness",
+                "instruction_following",
+                "fluency"
+            ]
+        },
+        {
+            "id": "needle_task",
+            "system_prompt": "You are a detail-oriented analyst. Answer the question precisely using information from the document. If the information is not in the document, say 'Not found in document'.",
+            "user_prompt": "PLACEHOLDER — replaced at runtime with needle-specific question",
+            "evaluation_criteria": [
+                "needle_found",
+                "faithfulness",
+                "answer_relevance"
+            ]
+        }
+    ]
+}

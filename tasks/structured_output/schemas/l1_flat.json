@@ -1,0 +1,32 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "L1 — Flat Schema (5 fields)",
+    "description": "Simple flat JSON structure for basic structured output evaluation",
+    "type": "object",
+    "required": [
+        "title",
+        "author",
+        "date",
+        "category",
+        "summary"
+    ],
+    "additionalProperties": false,
+    "properties": {
+        "title": {
+            "type": "string"
+        },
+        "author": {
+            "type": "string"
+        },
+        "date": {
+            "type": "string",
+            "format": "date"
+        },
+        "category": {
+            "type": "string"
+        },
+        "summary": {
+            "type": "string"
+        }
+    }
+}

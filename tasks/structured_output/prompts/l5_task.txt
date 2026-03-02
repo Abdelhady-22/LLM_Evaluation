@@ -1,0 +1,23 @@
+You are given the following detailed medical case report. Analyze the patient's presentation thoroughly and produce a comprehensive clinical assessment. Return the result as a JSON object matching the provided schema exactly.
+
+Medical Case Report:
+
+Patient ID: MC-2024-7829. The patient is a 58-year-old male presenting to the emergency department with a constellation of symptoms that began approximately 5 days ago.
+
+Primary complaint: Progressive shortness of breath (severe, gradual onset, 5 days duration). The patient reports this as his main concern and rates it 8/10 in severity.
+
+Additional symptoms: (1) Persistent dry cough, moderate severity, gradual onset, present for 7 days. (2) Low-grade fever of 38.2°C, mild severity, gradual onset, 3 days duration. (3) Bilateral ankle edema, moderate severity, gradual onset, noticed 4 days ago. (4) Fatigue and exercise intolerance, severe, gradual onset, 10 days duration — this is a primary symptom.
+
+Medical history: The patient has a history of hypertension (15 years) and Type 2 diabetes (8 years). Previous echocardiogram 2 years ago showed mildly reduced ejection fraction (45%).
+
+Current assessment: Based on the clinical presentation, the primary diagnosis is Acute Decompensated Heart Failure (ICD code: I50.21) with a diagnostic confidence of 0.82. The condition is at an intermediate stage and is chronic in nature.
+
+Differential diagnoses include: (1) Community-acquired pneumonia — probability 0.12, (2) Pulmonary embolism — probability 0.04, (3) COPD exacerbation — probability 0.02.
+
+Treatment plan: The recommended approach is conservative management. Prescribed medications include: (1) Furosemide 40mg IV, twice daily for 1 week, contraindicated in severe renal impairment and sulfa allergy. (2) Lisinopril 10mg oral, once daily for ongoing use, contraindicated in bilateral renal artery stenosis, pregnancy, and angioedema history. (3) Carvedilol 6.25mg oral, twice daily for ongoing use, contraindicated in severe bradycardia and decompensated heart failure with hemodynamic instability.
+
+Follow-up is recommended in 2 weeks. The patient requires hospitalization. A cardiology specialist referral is recommended.
+
+Additional notes: Patient should be monitored for fluid balance, daily weights, and renal function. Consider repeat echocardiogram after stabilization to reassess ejection fraction.
+
+Return ONLY valid JSON matching the required schema. No explanation, no markdown, no extra text.

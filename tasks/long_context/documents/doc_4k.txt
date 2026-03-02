@@ -1,0 +1,3 @@
+TODO: This file will contain a ~4,000 token synthetic document (research paper style).
+The document will be used for long context evaluation tasks.
+Content will be generated during implementation phase.

@@ -1,0 +1,20 @@
+# ==============================================================================
+# LLM Evaluation Framework — Docker Compose (Local Testing)
+# ==============================================================================
+# Usage:
+#   docker compose up        (run evaluation)
+#   docker compose build     (rebuild image)
+# ==============================================================================
+
+services:
+  llm-eval:
+    build: .
+    runtime: nvidia
+    environment:
+      - EVAL_SCRIPT=all
+      - EVAL_CONFIG=/app/config/example_config.yaml
+      - NVIDIA_VISIBLE_DEVICES=all
+    volumes:
+      - ./results:/app/results
+      - ./logs:/app/logs
+      - ./config:/app/config

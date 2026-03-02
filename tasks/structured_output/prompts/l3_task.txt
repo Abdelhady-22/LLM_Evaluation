@@ -1,0 +1,11 @@
+You are given the following company annual report excerpt. Analyze it thoroughly and extract all relevant financial data, risk factors, and strategic recommendations. Return the result as a JSON object matching the provided schema exactly.
+
+Annual Report Excerpt — NovaTech Solutions (2024):
+
+NovaTech Solutions, a mid-cap technology company in the cloud infrastructure sector, reported its fiscal year 2024 results. The company achieved revenue of $2.4 billion, representing a 23% year-over-year growth. Net income reached $340 million, with an operating margin of 14.2%. The company's debt-to-equity ratio stands at 0.45, reflecting conservative financial management. Market capitalization as of the report date (2024-12-31) is approximately $18.5 billion.
+
+Key risk factors identified include: (1) Increasing competition from hyperscale cloud providers, rated as high severity, with major players like AWS and Azure aggressively expanding into NovaTech's niche market segments. (2) Supply chain disruptions for specialized GPU hardware, rated as medium severity, due to ongoing semiconductor shortages affecting delivery timelines. (3) Regulatory changes in data sovereignty laws across European markets, rated as medium severity, requiring significant compliance investments.
+
+The board recommends the following strategic actions: (1) High priority — Accelerate the AI infrastructure product line to differentiate from commodity cloud offerings, as the AI workload market is growing at 45% CAGR. (2) Medium priority — Establish a secondary supply chain partnership with Asian semiconductor manufacturers to reduce hardware dependency. (3) High priority — Expand data center presence in EU markets to comply with upcoming data localization requirements and capture growing European demand.
+
+Return ONLY valid JSON matching the required schema. No explanation, no markdown, no extra text.

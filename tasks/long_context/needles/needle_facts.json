@@ -1,0 +1,19 @@
+{
+    "needles": [
+        {
+            "id": "needle_1",
+            "fact": "The annual budget for Project Chimera was exactly $4,271,839, approved on March 15th by the CFO.",
+            "question": "What was the exact annual budget for Project Chimera and when was it approved?"
+        },
+        {
+            "id": "needle_2",
+            "fact": "Dr. Elena Vasquez discovered that compound RX-7742 reduces inflammation by 67% in clinical trials conducted in Helsinki.",
+            "question": "What compound did Dr. Elena Vasquez study, and what was the inflammation reduction percentage?"
+        },
+        {
+            "id": "needle_3",
+            "fact": "The server migration was scheduled for October 23rd at 2:00 AM UTC, with a planned downtime window of exactly 4 hours and 15 minutes.",
+            "question": "When was the server migration scheduled and what was the exact planned downtime window?"
+        }
+    ]
+}

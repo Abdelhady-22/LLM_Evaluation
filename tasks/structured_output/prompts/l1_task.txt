@@ -1,0 +1,10 @@
+You are given the following article. Extract the key information and return it as a JSON object matching the provided schema exactly.
+
+Article:
+"The Rise of Quantum Computing in 2025" by Dr. Sarah Chen, published on 2025-01-15.
+
+Quantum computing has reached a critical milestone this year. Major tech companies have demonstrated quantum advantage in real-world optimization problems. The field is moving from theoretical research to practical applications, with breakthroughs in error correction making fault-tolerant quantum computers a near-term possibility.
+
+This article falls under the Technology category and provides a comprehensive overview of the current state of quantum computing, highlighting key players, recent breakthroughs, and future predictions for the industry.
+
+Return ONLY valid JSON matching the required schema. No explanation, no markdown, no extra text.

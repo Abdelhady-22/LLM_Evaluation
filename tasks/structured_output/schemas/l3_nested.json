@@ -1,0 +1,111 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "L3 — Nested Schema (15+ fields)",
+    "description": "Nested JSON structure for company report extraction evaluation",
+    "type": "object",
+    "required": [
+        "company_name",
+        "report_date",
+        "sector",
+        "financials",
+        "risks",
+        "recommendations"
+    ],
+    "additionalProperties": false,
+    "properties": {
+        "company_name": {
+            "type": "string"
+        },
+        "report_date": {
+            "type": "string",
+            "format": "date"
+        },
+        "sector": {
+            "type": "string"
+        },
+        "market_cap_usd": {
+            "type": "number"
+        },
+        "financials": {
+            "type": "object",
+            "required": [
+                "revenue_usd",
+                "net_income_usd",
+                "yoy_growth_percent",
+                "debt_to_equity"
+            ],
+            "properties": {
+                "revenue_usd": {
+                    "type": "number"
+                },
+                "net_income_usd": {
+                    "type": "number"
+                },
+                "yoy_growth_percent": {
+                    "type": "number"
+                },
+                "debt_to_equity": {
+                    "type": "number"
+                },
+                "operating_margin_percent": {
+                    "type": "number"
+                }
+            }
+        },
+        "risks": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "risk_name",
+                    "severity",
+                    "description"
+                ],
+                "properties": {
+                    "risk_name": {
+                        "type": "string"
+                    },
+                    "severity": {
+                        "type": "string",
+                        "enum": [
+                            "low",
+                            "medium",
+                            "high",
+                            "critical"
+                        ]
+                    },
+                    "description": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "recommendations": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "action",
+                    "priority",
+                    "rationale"
+                ],
+                "properties": {
+                    "action": {
+                        "type": "string"
+                    },
+                    "priority": {
+                        "type": "string",
+                        "enum": [
+                            "low",
+                            "medium",
+                            "high"
+                        ]
+                    },
+                    "rationale": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,50 @@
+# ============================================================
+# LLM Evaluation Framework — Configuration
+# ============================================================
+# This config drives both evaluation scripts.
+# Modify models, tasks, and settings as needed.
+# ============================================================
+
+models:
+  - name: Qwen2.5-3B
+    family: Qwen
+    variants:
+      - tag: qwen2.5:3b               # FP32 baseline (reference)
+        backend: ollama
+        quant_type: FP32
+        is_reference: true
+
+      - tag: qwen2.5:3b-q4_K_M
+        backend: ollama
+        quant_type: GGUF
+        bit_depth: INT4
+
+      - tag: qwen2.5:3b-q8_0
+        backend: ollama
+        quant_type: GGUF
+        bit_depth: INT8
+
+# Generation defaults (can be overridden per task)
+generation_defaults:
+  temperature: 0.0
+  max_tokens: 2048
+  top_p: 1.0
+
+# Script 1: Structured Output settings
+structured_output:
+  levels: [L1, L3, L5]
+  max_retries: 1
+
+# Script 2: Long Context settings
+long_context:
+  doc_sizes: [4k, 8k, 16k, 32k]
+  needle_depths: [25, 50, 75, 90]
+
+# Hardware (optional)
+hardware:
+  cost_per_hour_usd: 0.19             # Salad Cloud rate, null if unknown
+
+# Output directories
+output:
+  results_dir: ./results
+  logs_dir: ./logs
