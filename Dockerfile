@@ -8,13 +8,14 @@ FROM nvidia/cuda:12.2.0-runtime-ubuntu22.04
 # Prevent interactive prompts during install
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install Python 3.11, pip, curl, and system dependencies
+# Install Python 3.11, pip, curl, zstd, and system dependencies
 RUN apt-get update && apt-get install -y \
     python3.11 \
     python3.11-venv \
     python3-pip \
     curl \
     git \
+    zstd \
     && rm -rf /var/lib/apt/lists/*
 
 # Set Python 3.11 as default
@@ -50,9 +51,7 @@ RUN mkdir -p /app/results /app/logs
 # Environment variables (defaults, overridden at runtime)
 ENV EVAL_SCRIPT=all
 ENV EVAL_CONFIG=/app/config/example_config.yaml
-# HF_TOKEN: set at runtime for gated models (e.g. Llama-3)
-# Pass via: docker run -e HF_TOKEN=hf_xxx... or Salad Cloud env vars
-ENV HF_TOKEN=""
-ENV HUGGING_FACE_HUB_TOKEN=""
+# HF_TOKEN and HUGGING_FACE_HUB_TOKEN: pass at runtime via
+#   docker run -e HF_TOKEN=hf_xxx  OR  Salad Cloud env vars
 
 ENTRYPOINT ["./entrypoint.sh"]
