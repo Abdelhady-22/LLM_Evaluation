@@ -49,5 +49,9 @@ RUN mkdir -p /app/results /app/logs
 # Environment variables (defaults, overridden at runtime)
 ENV EVAL_SCRIPT=all
 ENV EVAL_CONFIG=/app/config/example_config.yaml
+# HF_TOKEN: set at runtime for gated models (e.g. Llama-3)
+# Pass via: docker run -e HF_TOKEN=hf_xxx... or Salad Cloud env vars
+ENV HF_TOKEN=""
+ENV HUGGING_FACE_HUB_TOKEN=""
 
 ENTRYPOINT ["./entrypoint.sh"]

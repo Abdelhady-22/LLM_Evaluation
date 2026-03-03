@@ -1,28 +1,77 @@
 # ============================================================
 # LLM Evaluation Framework — Configuration
 # ============================================================
-# This config drives both evaluation scripts.
-# Modify models, tasks, and settings as needed.
+# Target models: Qwen2.5-7B-Instruct & Llama-3-8B-Instruct
+# Each model: FP32 (ref) → BF16 → FP16 → INT8 → INT4
+# FP16/BF16 are the primary focus, INT4/INT8 secondary
 # ============================================================
 
 models:
-  - name: Qwen2.5-3B
+  - name: Qwen2.5-7B-Instruct
     family: Qwen
+    max_context_tokens: 131072 # 128K native context window
+    long_context_doc_sizes: [4k, 8k, 16k, 32k, 64k, 120k] # Full range + near-limit
     variants:
-      - tag: qwen2.5:3b               # FP32 baseline (reference)
-        backend: ollama
+      # --- Reference (FP32 via HuggingFace) ---
+      - tag: Qwen/Qwen2.5-7B-Instruct
+        backend: huggingface
         quant_type: FP32
         is_reference: true
 
-      - tag: qwen2.5:3b-q4_K_M
+      # --- Priority: BF16 & FP16 (HuggingFace) ---
+      - tag: Qwen/Qwen2.5-7B-Instruct
+        backend: huggingface
+        quant_type: BF16
+        bit_depth: BF16
+
+      - tag: Qwen/Qwen2.5-7B-Instruct
+        backend: huggingface
+        quant_type: FP16
+        bit_depth: FP16
+
+      # --- Secondary: INT8 & INT4 (Ollama GGUF) ---
+      - tag: qwen2.5:7b-instruct-q8_0
+        backend: ollama
+        quant_type: GGUF
+        bit_depth: INT8
+
+      - tag: qwen2.5:7b-instruct-q4_K_M
         backend: ollama
         quant_type: GGUF
         bit_depth: INT4
 
-      - tag: qwen2.5:3b-q8_0
+  - name: Llama-3-8B-Instruct
+    family: Meta-Llama
+    max_context_tokens: 8192 # 8K context window (original Llama 3)
+    long_context_doc_sizes: [4k, 7k] # 4K + 7K near context limit
+    variants:
+      # --- Reference (FP32 via HuggingFace) ---
+      - tag: meta-llama/Meta-Llama-3-8B-Instruct
+        backend: huggingface
+        quant_type: FP32
+        is_reference: true
+
+      # --- Priority: BF16 & FP16 (HuggingFace) ---
+      - tag: meta-llama/Meta-Llama-3-8B-Instruct
+        backend: huggingface
+        quant_type: BF16
+        bit_depth: BF16
+
+      - tag: meta-llama/Meta-Llama-3-8B-Instruct
+        backend: huggingface
+        quant_type: FP16
+        bit_depth: FP16
+
+      # --- Secondary: INT8 & INT4 (Ollama GGUF) ---
+      - tag: llama3:8b-instruct-q8_0
         backend: ollama
         quant_type: GGUF
         bit_depth: INT8
+
+      - tag: llama3:8b-instruct-q4_K_M
+        backend: ollama
+        quant_type: GGUF
+        bit_depth: INT4
 
 # Generation defaults (can be overridden per task)
 generation_defaults:
@@ -36,13 +85,17 @@ structured_output:
   max_retries: 1
 
 # Script 2: Long Context settings
+# NOTE: per-model doc_sizes are set under each model's
+#       "long_context_doc_sizes" field to respect context windows.
+#       The list below is the global default; model-specific overrides
+#       take precedence when present.
 long_context:
-  doc_sizes: [4k, 8k, 16k, 32k]
+  doc_sizes: [4k, 7k, 8k, 16k, 32k, 64k, 120k]
   needle_depths: [25, 50, 75, 90]
 
 # Hardware (optional)
 hardware:
-  cost_per_hour_usd: 0.19             # Salad Cloud rate, null if unknown
+  cost_per_hour_usd: 0.19
 
 # Output directories
 output:

@@ -1,0 +1,47 @@
+# ===== Python =====
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# ===== Virtual Environments =====
+venv/
+env/
+.venv/
+.env
+
+# ===== IDE / Editor =====
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ===== Evaluation Outputs (generated at runtime) =====
+results/
+logs/
+*.log
+
+# ===== Model Cache (large, downloaded at runtime) =====
+models_cache/
+.cache/
+
+# ===== Docker =====
+.dockerignore
+
+# ===== Misc =====
+*.tmp
+*.bak
+.env.local

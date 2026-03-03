@@ -4,6 +4,7 @@ set -e
 # ==============================================================================
 # LLM Evaluation Framework — Container Entrypoint
 # Features: Ollama health-check, auto-restart, model pull retry, resume support
+# Supports mixed backends: Ollama (GGUF) + HuggingFace (FP32/BF16/FP16)
 # ==============================================================================
 
 echo "============================================"
@@ -61,11 +62,40 @@ pull_model() {
 }
 
 # --- Main Flow ---
+
+# Start Ollama (needed for GGUF/Ollama backend models)
 start_ollama
 
-# Pull models from config
-# TODO: Parse EVAL_CONFIG to extract model tags and pull each one
-echo "[INIT] Model pulling will be implemented with config parser"
+# Pull Ollama models from config
+# Parse YAML to extract Ollama model tags
+echo "[INIT] Pulling Ollama models from config..."
+if command -v python &> /dev/null; then
+    OLLAMA_TAGS=$(python -c "
+import yaml, sys
+with open('$EVAL_CONFIG') as f:
+    config = yaml.safe_load(f)
+for model in config.get('models', []):
+    for variant in model.get('variants', []):
+        if variant.get('backend') == 'ollama':
+            print(variant['tag'])
+" 2>/dev/null || echo "")
+
+    if [ -n "$OLLAMA_TAGS" ]; then
+        while IFS= read -r tag; do
+            pull_model "$tag"
+        done <<< "$OLLAMA_TAGS"
+    else
+        echo "[INIT] No Ollama models found in config (or parse error)"
+    fi
+fi
+
+echo "[INIT] HuggingFace models will be downloaded on first use by transformers"
+if [ -n "$HF_TOKEN" ]; then
+    export HUGGING_FACE_HUB_TOKEN="$HF_TOKEN"
+    echo "[INIT] HF_TOKEN is set — gated models (e.g. Llama-3) will authenticate"
+else
+    echo "[INIT] HF_TOKEN not set — only public models (e.g. Qwen2.5) will work"
+fi
 echo "[INIT] Config: $EVAL_CONFIG"
 echo "[INIT] Script: $EVAL_SCRIPT"
 
@@ -79,5 +109,5 @@ echo " Results in /app/results/"
 echo " Logs in /app/logs/"
 echo "============================================"
 
-# Keep alive for result retrieval
+# Keep alive for log retrieval
 tail -f /dev/null
