@@ -2,11 +2,12 @@
 # LLM Evaluation Framework — Dependencies
 # ==============================================================================
 
+# PyTorch (CUDA 12.8 compatible)
+torch>=2.2.0
+
 # Model backends
 transformers>=4.40.0
-auto-gptq>=0.7.0
-autoawq>=0.2.0
-bitsandbytes>=0.43.0
+accelerate>=0.30.0
 
 # Ollama API
 requests>=2.31.0
@@ -20,6 +21,3 @@ psutil>=5.9.0
 
 # Config
 pyyaml>=6.0.1
-
-# Utilities
-torch>=2.2.0

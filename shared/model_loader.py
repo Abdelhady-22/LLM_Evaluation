@@ -150,39 +150,32 @@ class HuggingFaceBackend:
             "token": hf_token,
         }
 
-        if self.quant == "GPTQ":
-            from auto_gptq import AutoGPTQForCausalLM
-            self.model = AutoGPTQForCausalLM.from_quantized(
-                self.model_id, **load_kwargs
-            )
-        elif self.quant == "AWQ":
-            from awq import AutoAWQForCausalLM
-            self.model = AutoAWQForCausalLM.from_quantized(
-                self.model_id, **load_kwargs
-            )
-        elif self.bit_depth == "INT4":
-            from transformers import BitsAndBytesConfig
-            bnb_config = BitsAndBytesConfig(load_in_4bit=True)
-            self.model = AutoModelForCausalLM.from_pretrained(
-                self.model_id, quantization_config=bnb_config, **load_kwargs
-            )
-        elif self.bit_depth == "INT8":
-            from transformers import BitsAndBytesConfig
-            bnb_config = BitsAndBytesConfig(load_in_8bit=True)
-            self.model = AutoModelForCausalLM.from_pretrained(
-                self.model_id, quantization_config=bnb_config, **load_kwargs
-            )
-        else:
-            # FP32 / BF16 / FP16 — explicit dtype mapping
-            dtype_map = {
-                "FP32": torch.float32,
-                "BF16": torch.bfloat16,
-                "FP16": torch.float16,
-            }
-            dtype = dtype_map.get(self.quant, torch.float32)
-            self.model = AutoModelForCausalLM.from_pretrained(
-                self.model_id, torch_dtype=dtype, **load_kwargs
-            )
+        # FP32 / BF16 / FP16 — explicit dtype mapping
+        dtype_map = {
+            "FP32": torch.float32,
+            "BF16": torch.bfloat16,
+            "FP16": torch.float16,
+        }
+        dtype = dtype_map.get(self.quant, torch.float32)
+
+        # Warn about FP32 VRAM requirements
+        if self.quant == "FP32":
+            try:
+                import pynvml
+                pynvml.nvmlInit()
+                handle = pynvml.nvmlDeviceGetHandleByIndex(0)
+                info = pynvml.nvmlDeviceGetMemoryInfo(handle)
+                vram_gb = info.total / (1024**3)
+                print(f"[HF] FP32 loading — GPU VRAM: {vram_gb:.1f} GB (needs ~28 GB for 7B model)")
+                if vram_gb < 28:
+                    print(f"[WARNING] FP32 may OOM on {vram_gb:.1f} GB VRAM. Consider BF16 instead.")
+                pynvml.nvmlShutdown()
+            except Exception:
+                pass
+
+        self.model = AutoModelForCausalLM.from_pretrained(
+            self.model_id, torch_dtype=dtype, **load_kwargs
+        )
 
     def generate(self, messages, params=None):
         """Generate response using HuggingFace transformers."""

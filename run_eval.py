@@ -26,6 +26,7 @@ from shared.model_loader import UnifiedModel
 from shared.json_builder import JsonBuilder
 from shared.metrics_aggregator import MetricsAggregator
 from shared.run_tracker import RunTracker
+from shared.status_server import start_status_server
 
 from eval_structured_output import run_structured_output_eval
 from eval_long_context import run_long_context_eval
@@ -130,6 +131,9 @@ def extract_reference_outputs(results):
 
 def main():
     args = parse_args()
+
+    # Start HTTP status server (port 8000) for Salad Cloud health checks
+    start_status_server(port=8000)
     config = load_config(args.config)
 
     results_dir = config.get("output", {}).get("results_dir", "./results")

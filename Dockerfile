@@ -1,17 +1,19 @@
 # ==============================================================================
 # LLM Evaluation Framework — Dockerfile
-# Base: NVIDIA CUDA 12.2 runtime for GPU access on Salad Cloud
+# Base: NVIDIA CUDA 12.8 runtime for GPU access on Salad Cloud
+# Supports GPUs with 24-32+ GB VRAM (RTX 4090, A100, etc.)
 # ==============================================================================
 
-FROM nvidia/cuda:12.2.0-runtime-ubuntu22.04
+FROM nvidia/cuda:12.8.0-runtime-ubuntu22.04
 
 # Prevent interactive prompts during install
 ENV DEBIAN_FRONTEND=noninteractive
 
-# Install Python 3.11, pip, curl, zstd, and system dependencies
+# Install Python 3.11, pip, curl, zstd, and build dependencies
 RUN apt-get update && apt-get install -y \
     python3.11 \
     python3.11-venv \
+    python3.11-dev \
     python3-pip \
     curl \
     git \
@@ -50,7 +52,9 @@ RUN mkdir -p /app/results /app/logs
 # Environment variables (defaults, overridden at runtime)
 ENV EVAL_SCRIPT=all
 ENV EVAL_CONFIG=/app/config/example_config.yaml
-# HF_TOKEN and HUGGING_FACE_HUB_TOKEN: pass at runtime via
-#   docker run -e HF_TOKEN=hf_xxx  OR  Salad Cloud env vars
+# HF_TOKEN: pass at runtime via docker run -e or Salad Cloud env vars
+
+# Expose status server port for Salad Cloud health checks
+EXPOSE 8000
 
 ENTRYPOINT ["./entrypoint.sh"]
